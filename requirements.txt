@@ -4,11 +4,9 @@ numpy
 joblib
 pandas
 matplotlib
-pyplot
 tensorflow
 statsmodels
 scikit-learn
-keras
 xgboost
 lightgbm
 catboost
