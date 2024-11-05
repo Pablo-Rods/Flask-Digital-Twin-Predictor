@@ -150,9 +150,3 @@ def plot_results(df, min_length, prediction):
 
     plt.tight_layout()
     plt.show()
-
-
-if __name__ == '__main__':
-    prediction = randomForest(pathlib.Path
-                              ('Data', 'damdata_danador_data.xlsx'), 730)
-    print(prediction)
