@@ -113,7 +113,7 @@ def predict(file):
     return predictions
 
 
-def randomForest(file, min):
+def randomForest(file, min, seed):
     df = readFile(file)[['NEMBA', 'PCVP004']]
 
     nemba_decompose = seasonal_decompose(df['NEMBA'], model='additive',
@@ -133,12 +133,12 @@ def randomForest(file, min):
 
     predictions = model.predict(X)
 
-    plot_results(df, min, predictions)
+    plot_results(df, min, predictions, seed)
 
     return predictions
 
 
-def plot_results(df, min_length, prediction):
+def plot_results(df, min_length, prediction, seed):
     plt.subplot(2, 1, 2)
     plt.plot(df.index[-min_length:], prediction,
              label='Predicted PCVP004 (Test)', color='red', linestyle='--')
@@ -148,5 +148,4 @@ def plot_results(df, min_length, prediction):
     plt.legend()
     plt.grid(True)
 
-    plt.tight_layout()
-    plt.show()
+    plt.savefig('./static/images/'+seed+'.png')
