@@ -126,7 +126,7 @@ def randomForest(file, min, seed):
     nemba_seasonal = nemba_seasonal[-min:]
     nemba_residual = nemba_residual[-min:]
 
-    model = jb.load(pathlib.Path('models', 'random_forest.joblib'))
+    model = jb.load(pathlib.Path('models', 'forest.joblib'))
 
     X = np.column_stack((nemba_trend.values, nemba_seasonal.values,
                          nemba_residual.values))
