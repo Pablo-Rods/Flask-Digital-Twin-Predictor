@@ -38,5 +38,5 @@ def index():
 
 @app.route('/upload/<seed>')
 def plot_results(seed):
-    return render_template('upload.html', 
+    return render_template('upload.html',
                            plotURL='/static/images/'+seed+'.png')

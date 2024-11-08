@@ -3,3 +3,4 @@ venv/*
 src/__pycache__/*
 src/pruebas_varias.py
 static/images
+__pycache__/*
