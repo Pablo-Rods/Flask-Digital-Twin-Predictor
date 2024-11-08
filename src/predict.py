@@ -8,7 +8,7 @@ from src.readData import readFile
 
 def randomForest(file, min, seed):
     df = readFile(file)
-    model = jb.load(pathlib.Path('models', 'forest.joblib'))
+    model = jb.load(pathlib.Path('models', 'new_model.joblib'))
 
     X = np.stack(df['NEMBA'])
     X_flat = X.reshape(X.shape[0], -1)
@@ -31,8 +31,8 @@ def plot_results(df, prediction, min, seed):
     y = df['PCVP004'].values
 
     plt.subplot(2, 1, 2)
-    plt.plot(y[-min:], label='Actual PCVP004 (Test)', color='blue')
-    plt.plot(prediction[-min:],
+    plt.plot(y, label='Actual PCVP004 (Test)', color='blue')
+    plt.plot(prediction,
              label='Predicted PCVP004 (Test)', color='red', linestyle='--')
     plt.title('Random Forest Regression: Testing Set')
     plt.xlabel('Time')
