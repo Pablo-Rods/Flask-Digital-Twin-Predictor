@@ -5,12 +5,7 @@ joblib
 pandas
 matplotlib
 tensorflow
-statsmodels
-scikit-learn
-xgboost
-lightgbm
-catboost
 python-dotenv
-openpyxl
 flask-restful
 flasgger
+scikit-learn
