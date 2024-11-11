@@ -1,42 +1,49 @@
-from src.predict import randomForest
-from flask import Flask, request, render_template, flash, redirect, url_for
-from dotenv import load_dotenv  # type: ignore
-import os
+from dotenv import load_dotenv
+from flask import Flask, request
+from flasgger import Swagger
+
+from src.predict import predict
 
 load_dotenv()
 
 app = Flask(__name__)
-
-UPLOAD_FOLDER = '/path/to/the/uploads'
-ALLOWED_EXTENSIONS = {'csv', 'xlsx'}
+swagger = Swagger(app)
 
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+@app.route('/predict/', methods=['POST'])
+def get_data():
+    """
+    Predict PCVP004 value
+    ---
+    consumes:
+        - application/json
+    produces:
+        - application/json
+    parameters:
+        - name: body
+          in: body
+          description: Array of the latest 5 NEMBA value
+          required: true
+          schema:
+            type: object
+            properties:
+                NEMBA:
+                    type: array
+                    example: [708.48, 708.38, 708.33, 708.27, 708.3]
+    responses:
+        "200":
+            description: OK
+            content:
+                application/json:
+                    schema:
+                    type: object
+                    properties:
+                        PCVP04:
+                            type: float
+                            example: 1.87
+    """
+    data = request.json
+    prediction = predict(data)
+    res = f"PCVP004: {prediction}"
 
-
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            seed = str(int.from_bytes(os.urandom(5), 'big'))
-            randomForest(file, 70, seed)
-            return redirect(url_for('plot_results', seed=seed))
-    return render_template('index.html')
-
-
-@app.route('/upload/<seed>')
-def plot_results(seed):
-    return render_template('upload.html',
-                           plotURL='/static/images/'+seed+'.png')
+    return res

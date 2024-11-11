@@ -12,3 +12,5 @@ lightgbm
 catboost
 python-dotenv
 openpyxl
+flask-restful
+flasgger
