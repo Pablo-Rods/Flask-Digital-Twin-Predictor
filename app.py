@@ -1,8 +1,6 @@
 from dotenv import load_dotenv
 from flask import Flask, request
 from flasgger import Swagger
-import pandas as pd;
-import numpy as np;
 
 from src.predict import predict
 
@@ -45,17 +43,7 @@ def get_data():
                             example: 1.87
     """
     data = request.json
-    newNemba = []
-    for i in range(len(data) - 4):
-        sublista = data[i:i + 5]
-        newNemba.append(sublista)
-
-    df_Pablo = pd.DataFrame({
-        'NEMBA': newNemba,
-    })
-    X = np.stack(df_Pablo['NEMBA'].values)
-    X_pablo = X.reshape(X.shape[0], -1)
-    prediction = predict(X_pablo)
+    prediction = predict(data)
     res = f"PCVP004: {prediction}"
 
     return res
