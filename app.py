@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 from flask import Flask, request
 from flasgger import Swagger
+import numpy as np
 
 from src.predict import predict
 
@@ -44,9 +45,10 @@ def get_data():
     """
     data = request.json
     prediction = predict(data)
-    res = f"PCVP004: {prediction}"
+    array1 = np.array(prediction)
+    array = np.array2string(array1, separator=',')
 
-    return res
+    return array
 
 
 if __name__ == '__main__':
