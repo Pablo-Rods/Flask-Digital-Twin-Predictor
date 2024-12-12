@@ -5,12 +5,12 @@ import pathlib
 import json
 
 
-def predict(data):
+def predict(data, piezometer):
     array = json2Array(data)
     inputs = np.array([array])
     res = []
 
-    model = jb.load(pathlib.Path('models', 'new_model.joblib'))
+    model = jb.load(pathlib.Path('models', f'{piezometer}.joblib'))
 
     for i in range(len(inputs)):
         prediction = model.predict(inputs[i])
